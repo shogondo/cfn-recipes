@@ -1,0 +1,19 @@
+
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  Domain:
+    Type: String
+Resources:
+  Certificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Ref Domain
+      SubjectAlternativeNames:
+        - !Sub '*.${Domain}'
+      DomainValidationOptions:
+        - DomainName: !Ref Domain
+          ValidationDomain: !Ref Domain
+      Tags:
+        - Key: Name
+          Value: !Sub ${AWS::StackName}
+      ValidationMethod: DNS
